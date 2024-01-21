@@ -16,6 +16,11 @@ M106 P2 S0
 M104 S[old_filament_temp]
 {endif}
 
+; reduce purge
+G1 E-20 F200 ; Filament is pushed out 20 mm.
+M400 ; Waits until pushing out is completed before doing anything else. 
+
+
 G1 X267 F18000
 ;{if toolchange_count == 2}
 ; get travel path for change filament
@@ -31,6 +36,10 @@ G1 Y128 F9000
 
 {if next_extruder < 255}
 M400
+
+G1 E18 F200   ;Filament is pushed back in 18 mm. 
+G1 E2 F20       ;Filament is pushed back in 2 mm but slower. 
+M400               ;Waits until pushing back in is completed before doing anything else.
 
 G92 E0
 {if flush_length_1 > 1}

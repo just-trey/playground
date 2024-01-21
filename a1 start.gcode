@@ -121,7 +121,10 @@ M620 S[initial_no_support_extruder]A   ; switch material if AMS exist
     M109 S250 ;set nozzle to common flush temp
     M106 P1 S0
     G92 E0
-    G1 E50 F200
+
+    ; reduce purge    
+    G1 E70 F200 ; Here the E50 value was changed to E70 to extrude another 20mm
+
     M400
     M1002 set_filament_type:{filament_type[initial_no_support_extruder]}
 M621 S[initial_no_support_extruder]A

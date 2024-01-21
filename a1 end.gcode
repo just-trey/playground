@@ -81,6 +81,10 @@ M106 P3 S0 ; turn off chamber cooling fan
 
 ;G1 X27 F15000 ; wipe
 
+; reduce purge
+G1 E-20 F200 ; Filament is pushed out 20 mm. 
+M400 ; Waits until pushing out is completed before doing anything else.  
+
 ; pull back filament to AMS
 M620 S255
 G1 X267 F15000
