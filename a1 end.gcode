@@ -1,6 +1,5 @@
-;===== date: 20230922 =====================
-;turn off nozzle clog detect
-G392 S0
+;===== date: 20231229 =====================
+G392 S0 ;turn off nozzle clog detect
 
 M400 ; wait for buffer to clear
 G92 E0 ; zero the extruder
@@ -87,9 +86,9 @@ M620 S255
 G1 X267 F15000
 T255
 G1 X-28.5 F18000
-G1 X-48.5 F3000
+G1 X-48.2 F3000
 G1 X-28.5 F18000
-G1 X-48.5 F3000
+G1 X-48.2 F3000
 M621 S255
 
 M104 S0 ; turn off hotend
@@ -141,4 +140,5 @@ M1006 W
 
 ;M17 X0.8 Y0.8 Z0.5 ; lower motor current to 45% power
 M400
-M18
+M18 X Y Z
+

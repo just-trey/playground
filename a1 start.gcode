@@ -1,5 +1,5 @@
 ;===== machine: A1 =========================
-;===== date: 20231211 =====================
+;===== date: 20240104 =====================
 G392 S0
 ;M400
 ;M73 P1.717
@@ -67,7 +67,8 @@ G28 X
 G91
 G1 Z5 F1200
 G90
-G0 X128 Y0 F30000
+G0 X128 F30000
+G0 Y254 F3000
 G91
 G1 Z-5 F1200
 
@@ -81,6 +82,13 @@ M17 D
 
 G28 Z P0 T140; home z with low precision,permit 300deg temperature
 M104 S{nozzle_temperature_initial_layer[initial_extruder]}
+
+M1002 judge_flag build_plate_detect_flag
+M622 S1
+  G39.4
+  G90
+  G1 Z5 F1200
+M623
 
 ;M400
 ;M73 P1.717
@@ -171,7 +179,7 @@ M622 J1
 
     M109 S{nozzle_temperature[initial_extruder]}
     G1 E10 F{outer_wall_volumetric_speed/2.4*60}
-    M983 F{outer_wall_volumetric_speed/2.4} A0.3 ; cali dynamic extrusion compensation
+    M983 F{outer_wall_volumetric_speed/2.4} A0.3 H[nozzle_diameter]; cali dynamic extrusion compensation
 
     M106 P1 S255
     M400 S5
@@ -186,7 +194,7 @@ M622 J1
 
     M1002 judge_last_extrude_cali_success
     M622 J0
-        M983 F{outer_wall_volumetric_speed/2.4} A0.3 ; cali dynamic extrusion compensation
+        M983 F{outer_wall_volumetric_speed/2.4} A0.3 H[nozzle_diameter]; cali dynamic extrusion compensation
         M106 P1 S255
         M400 S5
         G1 X-28.5 F18000
@@ -197,6 +205,19 @@ M622 J1
         M400
         M106 P1 S0
     M623
+    
+    G1 X-48.2 F3000
+    M400
+    M984 A0.1 E1 S1 F{outer_wall_volumetric_speed/2.4}
+    M106 P1 S178
+    M400 S5
+    G1 X-28.5 F18000
+    G1 X-48.2 F3000
+    G1 X-28.5 F18000
+    G1 X-48.2 F3000
+    G1 X-28.5 F18000
+    M400
+    M106 P1 S0
 M623 ; end of "draw extrinsic para cali paint"
 
 ;G392 S0
@@ -452,7 +473,7 @@ M106 S0 ; turn off fan , too noisy
 
 M622 J1
     M1002 gcode_claim_action : 1
-    G29 A
+    G29 A X{first_layer_print_min[0]} Y{first_layer_print_min[1]} I{first_layer_print_size[0]} J{first_layer_print_size[1]}
     M400
     M500 ; save cali data
 M623
@@ -586,4 +607,5 @@ T1000
 
 M211 X0 Y0 Z0 ;turn off soft endstop
 ;G392 S1 ; turn on clog detection
+M1007 S1 ; turn on mass estimation
 G29.4
